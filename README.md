@@ -60,6 +60,21 @@ EOF
 source ~/.bashrc
 ```
 
+Then last execute.
+```
+GW=$(ip route | awk '/default/ {print $3; exit}')
+export HTTP_PROXY="http://$GW:3128"
+export HTTPS_PROXY="$HTTP_PROXY"
+
+sudo -E apt-get update \
+  -o Acquire::http::Proxy="$HTTP_PROXY" \
+  -o Acquire::https::Proxy="$HTTPS_PROXY"
+
+sudo -E apt-get install -y python3-venv python3-pip \
+  -o Acquire::http::Proxy="$HTTP_PROXY" \
+  -o Acquire::https::Proxy="$HTTPS_PROXY"
+```
+
 
 # You can test running in wsl
 ```
